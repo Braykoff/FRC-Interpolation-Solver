@@ -31,7 +31,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     // Start Graph
-    test.initGraph("Test Graph :)", config);
+    test.initGraph("Test Graph", config);
 
     // Add Network Tables
     ShuffleboardTab testTab = Shuffleboard.getTab("Test");
