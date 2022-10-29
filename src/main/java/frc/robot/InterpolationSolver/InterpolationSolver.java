@@ -24,7 +24,7 @@ public class InterpolationSolver {
 
     // Graphing
     private GraphingUtils graph;
-    private boolean isGraphing;
+    private boolean isGraphing = false;
 
     // Constructor
     public InterpolationSolver(double[] x, double[] y, int degree) {

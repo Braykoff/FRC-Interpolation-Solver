@@ -1,7 +1,7 @@
 package frc.robot.InterpolationSolver;
 
 public class GraphingConfig {
-    // Light and Dark Enums
+    // Shuffleboard Theme Enum
     public enum GraphTheme {LIGHT, DARK, MIDNIGHT};
 
     // Values

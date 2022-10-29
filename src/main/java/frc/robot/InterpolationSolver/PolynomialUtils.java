@@ -1,5 +1,6 @@
-// Black-box program copied from: https://algs4.cs.princeton.edu/14analysis/PolynomialRegression.java.html
+// Program copied from: https://algs4.cs.princeton.edu/14analysis/PolynomialRegression.java.html
 // Slight modifications made (class name changed)
+// Don't ask me how any of this works
 package frc.robot.InterpolationSolver;
 
 /******************************************************************************
