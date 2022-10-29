@@ -1,0 +1,15 @@
+{
+  "NTProvider": {
+    "types": {
+      "/FMSInfo": "FMSInfo"
+    }
+  },
+  "NetworkTables": {
+    "CameraPublisher": {
+      "Test Graph :)": {
+        "open": true
+      },
+      "open": true
+    }
+  }
+}
