@@ -264,6 +264,15 @@ public class GraphingUtils {
                     config.checkerColor.getScalarValue()
                 );
 
+                if (mostRecentPrediction[0] >= xRange[0] && mostRecentPrediction[0] <= xRange[1]) {
+                    Imgproc.circle(
+                        workingGraph, 
+                        getCoordinateOfPoint(mostRecentPrediction[0], mostRecentPrediction[1]), 
+                        config.pointRadius, 
+                        config.checkerColor.getScalarValue()
+                    );
+                }
+
                 lastUpdateX = mostRecentPrediction[0];
             }
 
