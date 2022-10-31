@@ -22,10 +22,12 @@ public class GraphingUtils {
     public double[] mostRecentPrediction = {Double.NaN, Double.NaN};
 
     // Get Text Size (in Pixels)
-    private double getTextWidth(String content) {
+    private double getTextWidth(String content, double scale) {
         int[] baseline = {0};
-        return Imgproc.getTextSize(content, 0, 0.4, 1, baseline).width;
+        return Imgproc.getTextSize(content, 0, scale, 1, baseline).width;
     }
+
+    private double getTextWidth(String content) { return getTextWidth(content, 0.4); }
     
     // Limit Text Size (in Pixels)
     private String limitTextSize(Object content, int maxSize) {
@@ -190,12 +192,18 @@ public class GraphingUtils {
         }
 
         // Add Equation
+        double scale = 0.4;
+
+        while (getTextWidth(polynomial.toString(), scale) > 320 && scale > 0.05) {
+            scale -= 0.05;
+        }
+
         Imgproc.putText(
             blankGraph, 
             polynomial.toString(), 
             new Point(0, blankGraph.height() - 4), 
             0, 
-            0.4, 
+            scale, 
             config.equationColor.getScalarValue(),
             1
         );
