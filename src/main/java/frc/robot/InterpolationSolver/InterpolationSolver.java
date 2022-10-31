@@ -44,6 +44,9 @@ public class InterpolationSolver {
         return y;
     }
 
+    // Get Equation as String
+    public String getEquation() { return regression.toString(); }
+
     // Graph
     public void initGraph(String title, GraphingConfig config) {
         if (isGraphing) {
