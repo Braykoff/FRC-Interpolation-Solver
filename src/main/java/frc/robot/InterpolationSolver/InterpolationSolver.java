@@ -11,6 +11,7 @@ public class InterpolationSolver {
     private double[] xPoints;
     private double[] yPoints;
     private int polynomialDegree;
+    private double[] bounds = new double[2];
 
     // Line Types
     public static class LineType {
@@ -27,17 +28,29 @@ public class InterpolationSolver {
     private boolean isGraphing = false;
 
     // Constructor
-    public InterpolationSolver(double[] x, double[] y, int degree) {
+    public InterpolationSolver(double[] x, double[] y, int degree, double minValue, double maxValue) {
         xPoints = x;
         yPoints = y;
         polynomialDegree = degree;
 
         regression = new PolynomialUtils(xPoints, yPoints, polynomialDegree, "x");
+
+        if (minValue > maxValue) {
+            DriverStation.reportError("Min value can not be greater than max value!", false);
+            bounds = new double[]{Double.NaN, Double.NaN};
+        } else {
+            bounds = new double[]{minValue, maxValue};
+        }
     }
+
+    public InterpolationSolver(double[] x, double[] y, int degree) { this(x, y, degree, Double.NaN, Double.NaN); }
 
     // Calculate
     public double solve(double x) {
         double y = regression.predict(x);
+
+        if (!Double.isNaN(bounds[0])) { y = Math.max(y, bounds[0]); }
+        if (!Double.isNaN(bounds[1])) { y = Math.min(y, bounds[1]); }
 
         if (isGraphing) { graph.mostRecentPrediction = new double[]{x, y}; }
 
@@ -54,7 +67,7 @@ public class InterpolationSolver {
             return;
         }
 
-        graph = new GraphingUtils(title, config, xPoints, yPoints, regression);
+        graph = new GraphingUtils(title, config, xPoints, yPoints, bounds, regression);
         graph.startStream();
         isGraphing = true;
     }

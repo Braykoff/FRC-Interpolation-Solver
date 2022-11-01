@@ -21,7 +21,7 @@ public class Robot extends TimedRobot {
   double[] y = {1, 4, 10, 15, 23};
 
   // Create Interpolation Solver and Graph Config
-  InterpolationSolver test = new InterpolationSolver(x, y, InterpolationSolver.LineType.QUADRATIC);
+  InterpolationSolver test = new InterpolationSolver(x, y, InterpolationSolver.LineType.QUADRATIC, 3, 20);
   GraphingConfig config = new GraphingConfig(GraphTheme.LIGHT);
 
   // Shuffleboard Values

@@ -3,6 +3,7 @@ package frc.robot.InterpolationSolver;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
+import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
 import edu.wpi.first.cameraserver.CameraServer;
@@ -48,8 +49,11 @@ public class GraphingUtils {
         );
     }
 
+    // Rotate Point 90 degrees clockwise
+    private Point rotate90DegClockwise(Point pt) { return new Point(240 - pt.y, pt.x); }
+
     // Constructor
-    public GraphingUtils(String title, GraphingConfig graphConfig, double[] xData, double[] yData, PolynomialUtils polynomial) {
+    public GraphingUtils(String title, GraphingConfig graphConfig, double[] xData, double[] yData, double[] bounds, PolynomialUtils polynomial) {
         // Safety/Sanity Checks
         if (xData.length < 1 || xData.length != yData.length) {
             DriverStation.reportError("Invalid data: xData and yData must be the same length, and have at least one number", false);
@@ -74,28 +78,6 @@ public class GraphingUtils {
         // Create graph, but rotated 90 degrees clockwise (to add X-axis labels)
         Mat rotatedGraph = new Mat(320, 240, 16, config.background.getScalarValue());
         blankGraph = Mat.zeros(rotatedGraph.cols(), rotatedGraph.rows(), rotatedGraph.type());
-
-        // Add horizontal (now vertical) lines
-        for (int x = 0; x < 7; x++) {
-            Imgproc.line(
-                rotatedGraph, 
-                new Point(47 + (32 * x), 31), 
-                new Point(47 + (32 * x), 319), 
-                config.gridLineColor.getScalarValue(),
-                1
-            );
-        }
-
-        // Add vertical (now horizontal) lines
-        for (int y = 0; y < 10; y++) {
-            Imgproc.line(
-                rotatedGraph, 
-                new Point(47, 31 + (32 * y)), 
-                new Point(239, 31 + (32 * y)), 
-                config.gridLineColor.getScalarValue(), 
-                1
-            );
-        }
 
         // Determine Graph Range & Steps
         xRange[0] = xData[0];
@@ -126,6 +108,43 @@ public class GraphingUtils {
 
         yRange[0] -= yStep;
         yRange[1] += yStep;
+
+        // Add Bound Rectangles (Done first, so on bottom layer)
+        for (int x = 0; x < 2; x++) {
+            if (bounds[x] >= yRange[0] && bounds[x] <= yRange[1]) {
+                System.out.println(rotate90DegClockwise(getCoordinateOfPoint(xRange[0], bounds[x])));
+                System.out.println(rotate90DegClockwise(getCoordinateOfPoint(xRange[1], (x == 0) ? yRange[0] : yRange[1])));
+                Imgproc.rectangle(
+                    rotatedGraph,
+                    rotate90DegClockwise(getCoordinateOfPoint(xRange[0], bounds[x])),
+                    rotate90DegClockwise(getCoordinateOfPoint(xRange[1], (x == 0) ? yRange[0] : yRange[1])),
+                    config.boundsColor.blend(config.background, 0.1),
+                    -1
+                );
+            }
+        }
+
+        // Add horizontal (now vertical) lines
+        for (int x = 0; x < 7; x++) {
+            Imgproc.line(
+                rotatedGraph, 
+                new Point(47 + (32 * x), 31), 
+                new Point(47 + (32 * x), 319), 
+                config.gridLineColor.getScalarValue(),
+                1
+            );
+        }
+
+        // Add vertical (now horizontal) lines
+        for (int y = 0; y < 10; y++) {
+            Imgproc.line(
+                rotatedGraph, 
+                new Point(47, 31 + (32 * y)), 
+                new Point(239, 31 + (32 * y)), 
+                config.gridLineColor.getScalarValue(), 
+                1
+            );
+        }
 
         // Add X-Axis Labels
         for (int x = 0; x < 10; x++) {
@@ -207,6 +226,19 @@ public class GraphingUtils {
             config.equationColor.getScalarValue(),
             1
         );
+
+        // Add Bounds
+        for (int x = 0; x < 2; x++) {
+            if (bounds[x] >= yRange[0] && bounds[x] <= yRange[1]) {
+                Imgproc.line(
+                    blankGraph, 
+                    getCoordinateOfPoint(xRange[0], bounds[x]), 
+                    getCoordinateOfPoint(xRange[1], bounds[x]), 
+                    config.boundsColor.getScalarValue(),
+                    1
+                );
+            }
+        }
     }
 
     // Clamp Number

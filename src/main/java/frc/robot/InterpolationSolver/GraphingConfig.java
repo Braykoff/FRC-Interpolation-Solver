@@ -12,6 +12,7 @@ public class GraphingConfig {
     public int pointRadius;
     public Color checkerColor;
     public Color equationColor;
+    public Color boundsColor;
     public int fps;
 
     // Create From Graph Appearance (Default Values)
@@ -37,6 +38,7 @@ public class GraphingConfig {
         pointRadius = 4;
         checkerColor = new Color(0, 255, 0);
         equationColor = new Color(255, 0, 0);
+        boundsColor = new Color(255, 0, 0);
         fps = 10;
     }
 

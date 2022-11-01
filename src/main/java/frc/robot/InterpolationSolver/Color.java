@@ -44,4 +44,13 @@ public class Color {
 
     // Get Scalar Value
     public Scalar getScalarValue() { return new Scalar(blue, green, red); }
+
+    // Blend With Other Color
+    public Scalar blend(Color source2, double beta) {
+        return new Scalar(
+            (blue * beta) + (source2.blue * (1.0-beta)),
+            (green * beta) + (source2.green * (1.0-beta)),
+            (red * beta) + (source2.red * (1.0-beta))
+        );
+    }
 }
