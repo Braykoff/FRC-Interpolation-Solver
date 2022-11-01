@@ -3,7 +3,6 @@ package frc.robot.InterpolationSolver;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
-import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
 import edu.wpi.first.cameraserver.CameraServer;
