@@ -58,7 +58,8 @@ public class InterpolationSolver {
     }
 
     // Get Equation as String
-    public String getEquation() { return regression.toString(); }
+    @Override
+    public String toString() { return regression.toString(); }
 
     // Graph
     public void initGraph(String title, GraphingConfig config) {
